@@ -1,5 +1,12 @@
-<x-layouts.app.sidebar :title="$title ?? null">
-    <flux:main>
-        {{ $slot }}
-    </flux:main>
-</x-layouts.app.sidebar>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @include('partials.head')
+</head>
+
+<body>
+
+</body>
+    {{ $slot }}
+</html>
