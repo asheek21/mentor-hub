@@ -36,6 +36,9 @@ jobs:
       - name: Run Pint
         run: vendor/bin/pint
 
+      - name: Run Larastan
+        run: ./vendor/bin/phpstan analyse --no-interaction --memory-limit=512M
+
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v5
       #   with:

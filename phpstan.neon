@@ -1,0 +1,22 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - routes
+        - database/seeders
+        - database/factories
+
+    level: 5
+
+    excludePaths:
+        - tests/*
+        - bootstrap/*
+        - storage/*
+        - public/*
+        - database/migrations/*
+
+    # Laravel-specific improvements
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: false

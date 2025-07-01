@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /** @phpstan-ignore-next-line */
         Vite::macro('image', fn (string $asset) => $this->asset("resources/images/{$asset}"));
 
         Vite::prefetch(concurrency: 3);
