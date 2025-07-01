@@ -61,8 +61,11 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
-         "phpstan": [
+        "phpstan": [
             "./vendor/bin/phpstan analyse"
+        ],
+        "pest" : [
+            "./vendor/bin/pest"
         ]
     },
     "extra": {

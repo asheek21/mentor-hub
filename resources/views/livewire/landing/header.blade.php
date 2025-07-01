@@ -11,11 +11,12 @@
                     <a href="#mentors" class="text-gray-500 hover:text-gray-700">Find Mentors</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button class="text-gray-500 hover:text-gray-700 font-medium">
+                    <button @click="$dispatch('open-login-modal')" class="text-gray-500 hover:text-gray-700 font-medium cursor-pointer">
                         Log In
                     </button>
                     <button
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                        @click="$dispatch('open-register-modal')"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer">
                         Sign Up Free
                     </button>
                 </div>

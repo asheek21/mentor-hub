@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
 class Login extends Component
 {
     #[Validate('required|string|email')]
@@ -22,6 +21,8 @@ class Login extends Component
     public string $password = '';
 
     public bool $remember = false;
+
+    public bool $hidden = true;
 
     /**
      * Handle an incoming authentication request.
@@ -73,5 +74,16 @@ class Login extends Component
     protected function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+    }
+
+    #[On('open-login-modal')]
+    public function openLoginModal()
+    {
+        $this->hidden = false;
+    }
+
+    public function hide()
+    {
+        $this->hidden = true;
     }
 }
