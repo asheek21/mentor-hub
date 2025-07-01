@@ -5,12 +5,26 @@ namespace App\Livewire\Auth;
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
 class VerifyEmail extends Component
 {
+    public function mount(): void
+    {
+        if (Auth::user()->hasVerifiedEmail()) {
+            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+
+            return;
+        }
+    }
+
+    public function render()
+    {
+        $user = Auth::user();
+
+        return view('livewire.auth.verify-email', compact('user'));
+    }
+
     /**
      * Send an email verification notification to the user.
      */

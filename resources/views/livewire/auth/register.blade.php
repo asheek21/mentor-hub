@@ -3,7 +3,7 @@
     <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4" @click.stop>
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-gray-900">Join MentorHub</h2>
-            <button class="text-gray-500 hover:text-gray-700" @click="$wire.hide()">
+            <button class="text-gray-500 hover:text-gray-700 cursor-pointer" @click="$wire.hide()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -58,12 +58,12 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">I want to:</label>
                 <div class="space-y-2">
                     <label class="flex items-center">
-                        <input type="radio" wire:model.defer="role" name="user_role" value="{{ \App\Enums\UserRole::MENTEE->value }}"
+                        <input type="radio" wire:model.defer="user_role" name="user_role" value="{{ \App\Enums\UserRole::MENTEE->value }}"
                             class="text-blue-600" checked>
                         <span class="ml-2 text-sm text-gray-700">Learn from mentors</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="radio" wire:model.defer="role" name="user_role" value="{{ \App\Enums\UserRole::MENTOR->value }}"
+                        <input type="radio" wire:model.defer="user_role" name="user_role" value="{{ \App\Enums\UserRole::MENTOR->value }}"
                             class="text-blue-600">
                         <span class="ml-2 text-sm text-gray-700">Become a mentor</span>
                     </label>
@@ -81,7 +81,7 @@
         <div class="mt-6 text-center cursor-pointer">
             <p class="text-sm text-gray-600">
                 Already have an account?
-                <a href="#" class="text-blue-600 hover:underline font-medium">Sign in</a>
+                <a href="javascript:void(0);" wire:click="existingUser" class="text-blue-600 hover:underline font-medium">Sign in</a>
             </p>
         </div>
     </div>

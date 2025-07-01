@@ -86,4 +86,11 @@ class Login extends Component
     {
         $this->hidden = true;
     }
+
+    public function newUser()
+    {
+        $this->hide();
+
+        $this->dispatch('open-register-modal')->to(Register::class);
+    }
 }
