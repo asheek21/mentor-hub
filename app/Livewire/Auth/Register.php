@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -46,6 +47,7 @@ class Register extends Component
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['onboarding_stage'] = OnboardingStage::FIRST_STEP;
 
         event(new Registered(($user = User::create($validated))));
 

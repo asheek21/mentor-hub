@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('user_role');
+            $table->string('onboarding_stage');
             $table->rememberToken();
             $table->timestamps();
         });

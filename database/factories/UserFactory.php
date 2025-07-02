@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'user_role' => fake()->randomElement(UserRole::cases()),
+            'onboarding_stage' => OnboardingStage::FIRST_STEP,
         ];
     }
 

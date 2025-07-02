@@ -10,5 +10,9 @@
 </body>
     {{ $slot }}
 
+    {{-- <flux:toast position="top right"/> --}}
+
+    <x-toaster-hub />
+
     @fluxScripts
 </html>
