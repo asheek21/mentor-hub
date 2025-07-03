@@ -69,6 +69,8 @@ class Step1Form extends Form
 
         $user = Auth::user();
 
+        $user->userProfile()->delete();
+
         $user->userProfile()->create($requestData);
     }
 }

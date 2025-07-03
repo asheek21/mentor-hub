@@ -46,9 +46,9 @@
                 </label>
                 <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
             </div>
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg cursor-pointer">
+            <flux:button class="cursor-pointer w-full" type="submit" variant="primary" color="blue">
                 Sign In
-            </button>
+            </flux:button>
         </form>
         <div class="mt-6 text-center">
             <p class="text-sm text-gray-600">

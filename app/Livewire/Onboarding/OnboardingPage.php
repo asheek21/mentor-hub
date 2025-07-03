@@ -24,14 +24,14 @@ class OnboardingPage extends Component
         if ($this->user->onboarding_stage == OnboardingStage::COMPLETED) {
             $this->redirect(route('dashboard', absolute: false), navigate: true);
         }
-
-        $this->currentStep = $this->user->onboarding_stage->step();
-
-        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 2 : 1;
     }
 
     public function render()
     {
+        $this->currentStep = $this->user->onboarding_stage->step();
+
+        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 2 : 1;
+
         return view('livewire.onboarding.onboarding-page');
     }
 
@@ -45,14 +45,15 @@ class OnboardingPage extends Component
             if ($completedStep == 1) {
                 $this->user->onboarding_stage = OnboardingStage::SECOND_STEP;
                 $this->user->save();
+
+                $this->currentStep = $this->user->onboarding_stage->step();
+
             } elseif ($completedStep == 2) {
 
                 $this->user->onboarding_stage = OnboardingStage::COMPLETED;
                 $this->user->save();
                 $this->redirect(route('dashboard', absolute: false), navigate: true);
             }
-
-            $this->currentStep = $this->user->onboarding_stage->step();
 
         } else {
 

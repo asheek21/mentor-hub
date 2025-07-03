@@ -9,6 +9,40 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $current_role
+ * @property string $company
+ * @property YearsOfExperience $years_of_experience
+ * @property string $bio
+ * @property \Illuminate\Support\Collection $specialization
+ * @property string $hourly_rate
+ * @property int $session_duration
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\User|null $user
+ *
+ * @method static \Database\Factories\UserProfileFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereBio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCurrentRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereHourlyRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereSessionDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereSpecialization($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereYearsOfExperience($value)
+ *
+ * @mixin \Eloquent
+ */
 class UserProfile extends Model
 {
     /** @use HasFactory<\Database\Factories\UserProfileFactory> */

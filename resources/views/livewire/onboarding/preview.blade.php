@@ -5,7 +5,7 @@
              <h3 class="text-lg font-semibold text-gray-900 mb-4">Profile Preview</h3>
              <div class="text-center">
                  <img class="h-16 w-16 rounded-full mx-auto mb-3"
-                     src="{{ $user->profile_picture }}" alt="Profile">
+                     src="{{ $profilePicture }}" alt="Profile">
                  <h4 class="font-semibold text-gray-900">{{ ucfirst($user->full_name) }}</h4>
                  <p class="text-sm text-gray-600 mb-3">{{ $currentRole }}</p>
                  <div class="flex justify-center mb-3">

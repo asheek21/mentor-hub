@@ -16,7 +16,43 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
+ * @property int $id
+ * @property string $first_name
+ * @property string|null $last_name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string $password
+ * @property UserRole $user_role
  * @property OnboardingStage $onboarding_stage
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $full_name
+ * @property-read string|null $profile_picture
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\MentorSchedule|null $mentorSchedule
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Models\UserProfile|null $userProfile
+ *
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOnboardingStage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserRole($value)
+ *
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
@@ -87,11 +123,16 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         $name = $this->full_name;
 
         return ! empty($this->getFirstMediaUrl(self::MEDIA_LIBRARY_PROFILE)) ?
-            $this->getFirstMediaUrl(self::MEDIA_LIBRARY_PROFILE) : "https://ui-avatars.com/api/?name={{ $name }}";
+            $this->getFirstMediaUrl(self::MEDIA_LIBRARY_PROFILE) : 'https://ui-avatars.com/api/?name='.$name;
     }
 
     public function userProfile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function mentorSchedule(): HasOne
+    {
+        return $this->hasOne(MentorSchedule::class);
     }
 }

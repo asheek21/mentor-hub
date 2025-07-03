@@ -41,6 +41,8 @@ class Step1 extends Component
         $this->user->addMedia($this->profilePicture)->toMediaCollection(User::MEDIA_LIBRARY_PROFILE);
 
         Toaster::success('Profile picture updated!');
+
+        $this->dispatch('profile-picture-updated')->to(Preview::class);
     }
 
     public function storeProfileDetails()

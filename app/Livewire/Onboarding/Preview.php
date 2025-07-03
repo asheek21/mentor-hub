@@ -20,7 +20,11 @@ class Preview extends Component
 
     public function render()
     {
-        return view('livewire.onboarding.preview');
+        $profilePicture = $this->user->profile_picture;
+
+        return view('livewire.onboarding.preview', [
+            'profilePicture' => $profilePicture,
+        ]);
     }
 
     #[On('onboarding-step1-updated')]
@@ -36,16 +40,22 @@ class Preview extends Component
                     return $item;
                 }
 
-                return [$item]; // for "others" which is a string
+                return [$item];
             })
-            ->filter() // remove empty/null/false values
+            ->filter()
             ->values()
-            ->take(2); // get any 2 values
+            ->take(2);
 
         $this->specialization = $flat->all();
 
         $this->hourlyRate = $datas['hourlyRate'];
 
         $this->sessionDuration = $datas['sessionDuration'];
+    }
+
+    #[On('profile-picture-updated')]
+    public function profilePictureUpdated()
+    {
+        $this->user->refresh();
     }
 }

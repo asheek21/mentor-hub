@@ -73,9 +73,9 @@
                 @enderror
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg cursor-pointer">
+            <flux:button class="cursor-pointer w-full" type="submit" variant="primary" color="blue">
                 Create Account
-            </button>
+            </flux:button>
         </form>
 
         <div class="mt-6 text-center cursor-pointer">
