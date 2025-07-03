@@ -12,6 +12,8 @@ test('it shows mentor steps correctly', function () {
         'onboarding_stage' => OnboardingStage::SECOND_STEP,
     ]);
 
+    $this->actingAs($user);
+
     $currentStep = $user->onboarding_stage->step();
 
     $response = Livewire::test(Header::class, [
@@ -34,6 +36,8 @@ test('it shows mentee steps correctly', function () {
     $user = User::factory()->create([
         'user_role' => UserRole::MENTEE,
     ]);
+
+    $this->actingAs($user);
 
     $currentStep = $user->onboarding_stage->step();
 
