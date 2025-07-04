@@ -12,15 +12,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * @property int $id
  * @property int $user_id
- * @property string $current_role
- * @property string $company
- * @property YearsOfExperience $years_of_experience
+ * @property string|null $current_role
+ * @property string|null $company
+ * @property YearsOfExperience|null $years_of_experience
  * @property string $bio
  * @property \Illuminate\Support\Collection $specialization
- * @property string $hourly_rate
- * @property int $session_duration
+ * @property string|null $hourly_rate
+ * @property int|null $session_duration
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $current_status
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\User|null $user
@@ -33,6 +34,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCompany($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCurrentRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereCurrentStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereHourlyRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProfile whereSessionDuration($value)
@@ -58,6 +60,7 @@ class UserProfile extends Model
         'specialization',
         'hourly_rate',
         'session_duration',
+        'current_status',
     ];
 
     protected function casts()

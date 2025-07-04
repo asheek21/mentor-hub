@@ -5,7 +5,7 @@ use App\Livewire\Onboarding\Step2;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders successfully', function () {
+test('mentee cannot access this page', function () {
 
     $user = User::factory()->create([
         'user_role' => UserRole::MENTEE,
@@ -16,5 +16,5 @@ it('renders successfully', function () {
     Livewire::test(Step2::class, [
         'user' => $user,
     ])
-        ->assertStatus(200);
+        ->assertRedirect(route('dashboard', absolute: false));
 });

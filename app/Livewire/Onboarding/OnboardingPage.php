@@ -32,7 +32,9 @@ class OnboardingPage extends Component
 
         $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 2 : 1;
 
-        return view('livewire.onboarding.onboarding-page');
+        $isMentee = $this->user->user_role == UserRole::MENTEE;
+
+        return view('livewire.onboarding.onboarding-page', compact('isMentee'));
     }
 
     #[On('profile-updated')]

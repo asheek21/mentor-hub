@@ -15,13 +15,14 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->string('current_role');
-            $table->string('company');
-            $table->string('years_of_experience');
+            $table->string('current_role')->nullable();
+            $table->string('current_status')->nullable();
+            $table->string('company')->nullable();
+            $table->string('years_of_experience')->nullable();
             $table->text('bio');
             $table->json('specialization');
-            $table->decimal('hourly_rate');
-            $table->integer('session_duration');
+            $table->decimal('hourly_rate')->nullable();
+            $table->integer('session_duration')->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,6 @@ namespace App\Livewire\Onboarding;
 
 use App\Enums\AdvanceBookingWindow;
 use App\Enums\MaximumBookingWindow;
-use App\Enums\OnboardingStage;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -84,12 +83,11 @@ class Schedule extends Component
             'send_notification' => $this->send_notification,
         ]);
 
-        $this->user->onboarding_stage = OnboardingStage::COMPLETED;
-        $this->user->save();
-
         Toaster::success('Schedule updated!');
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->dispatch('profile-updated', [
+            'completedStep' => 2,
+        ])->to(OnboardingPage::class);
     }
 
     protected function rules(): array

@@ -31,6 +31,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read string|null $profile_picture
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \App\Models\MenteePreference|null $menteePreference
  * @property-read \App\Models\MentorSchedule|null $mentorSchedule
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -134,5 +135,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function mentorSchedule(): HasOne
     {
         return $this->hasOne(MentorSchedule::class);
+    }
+
+    public function menteePreference(): HasOne
+    {
+        return $this->hasOne(MenteePreference::class);
     }
 }

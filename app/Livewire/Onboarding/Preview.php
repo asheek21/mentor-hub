@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Onboarding;
 
+use App\Enums\LearningPreference;
+use App\Enums\MenteeTimeline;
+use App\Enums\SessionFrequency;
 use App\Models\User;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -17,6 +20,21 @@ class Preview extends Component
     public ?float $hourlyRate = null;
 
     public int $sessionDuration = 60;
+
+    public string $timeline = '';
+
+    public string $learning_preference = '';
+
+    public string $session_frequency = '';
+
+    public function mount()
+    {
+        $this->learning_preference = LearningPreference::HANDSONPRACTICE->label();
+
+        $this->session_frequency = SessionFrequency::WEEKLYSESSION->label();
+
+        $this->timeline = MenteeTimeline::ONE_TWO_MONTHS->label();
+    }
 
     public function render()
     {
@@ -48,9 +66,15 @@ class Preview extends Component
 
         $this->specialization = $flat->all();
 
-        $this->hourlyRate = $datas['hourlyRate'];
+        $this->hourlyRate = $datas['hourlyRate'] ?? 0;
 
-        $this->sessionDuration = $datas['sessionDuration'];
+        $this->sessionDuration = $datas['sessionDuration'] ?? 0;
+
+        $this->timeline = $datas['timeline'] ?? '';
+
+        $this->learning_preference = $datas['learning_preference'] ?? '';
+
+        $this->session_frequency = $datas['session_frequency'] ?? '';
     }
 
     #[On('profile-picture-updated')]
