@@ -1,0 +1,127 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes progressFill {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 75%;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes dots {
+
+    0%,
+    20% {
+        color: rgba(59, 130, 246, 0.4);
+    }
+
+    40% {
+        color: rgb(59, 130, 246);
+    }
+
+    60%,
+    100% {
+        color: rgba(59, 130, 246, 0.4);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-pulse-slow {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-progress {
+    animation: progressFill 2s ease-out forwards;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.dot:nth-child(1) {
+    animation: dots 1.4s infinite;
+}
+
+.dot:nth-child(2) {
+    animation: dots 1.4s infinite;
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation: dots 1.4s infinite;
+    animation-delay: 0.4s;
+}
+
+/* Floating background elements */
+.bg-float-1 {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+    border-radius: 50%;
+    animation: float 4s ease-in-out infinite;
+}
+
+.bg-float-2 {
+    position: absolute;
+    top: 60%;
+    right: 15%;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+    border-radius: 50%;
+    animation: float 5s ease-in-out infinite reverse;
+}
+
+.bg-float-3 {
+    position: absolute;
+    bottom: 30%;
+    left: 20%;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
+    border-radius: 50%;
+    animation: float 3.5s ease-in-out infinite;
+    animation-delay: 1s;
+}
