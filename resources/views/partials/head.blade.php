@@ -13,4 +13,7 @@
 <script src="https://kit.fontawesome.com/5d549f9d1a.js" crossorigin="anonymous"></script>
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+@stack('custom-css')
+
 @fluxAppearance

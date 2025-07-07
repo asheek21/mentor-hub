@@ -114,9 +114,19 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->implode('');
     }
 
+    public function isMentor(): bool
+    {
+        return $this->user_role === UserRole::MENTOR;
+    }
+
+    public function isMentee(): bool
+    {
+        return $this->user_role === UserRole::MENTEE;
+    }
+
     public function getFullNameAttribute(): string
     {
-        return "{$this->first_name} {$this->last_name}";
+        return Str::title("{$this->first_name} {$this->last_name}");
     }
 
     public function getProfilePictureAttribute(): ?string
@@ -140,5 +150,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function menteePreference(): HasOne
     {
         return $this->hasOne(MenteePreference::class);
+    }
+
+    public function averageRating(): float
+    {
+        return 5.0;
     }
 }
