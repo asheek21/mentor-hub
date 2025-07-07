@@ -11,9 +11,13 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.1.1",
-        "livewire/volt": "^1.7.0"
+        "livewire/volt": "^1.7.0",
+        "masmerise/livewire-toaster": "^2.8",
+        "spatie/laravel-activitylog": "^4.10",
+        "spatie/laravel-medialibrary": "^11.13"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.5",
         "laravel/pail": "^1.2.2",
@@ -61,8 +65,11 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
-         "phpstan": [
+        "phpstan": [
             "./vendor/bin/phpstan analyse"
+        ],
+        "pest" : [
+            "./vendor/bin/pest"
         ]
     },
     "extra": {
