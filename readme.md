@@ -3,6 +3,8 @@
 **SkillBridge** is a mentorship platform built with Laravel 12 where mentors and mentees can connect, book sessions, and collaborate effectively.  
 This project is currently in **active development**.
 
+🌐 **Live Demo**: [https://mentor-hub-main-c5ddur.laravel.cloud](https://mentor-hub-main-c5ddur.laravel.cloud)
+
 ---
 
 ## 🚧 Status
