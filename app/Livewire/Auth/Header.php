@@ -45,6 +45,33 @@ class Header extends Component
                 ]
             );
         }
+
+        array_push($this->menu,
+            [
+                'name' => 'Browse Mentors',
+                'route' => 'browse-mentors',
+                'coming_soon' => 'false',
+                'active' => false,
+            ],
+            [
+                'name' => 'My Sessions',
+                'route' => 'sessions',
+                'coming_soon' => 'false',
+                'active' => false,
+            ],
+            [
+                'name' => 'Courses',
+                'route' => 'courses',
+                'coming_soon' => 'false',
+                'active' => false,
+            ],
+            [
+                'name' => 'Messages',
+                'route' => 'messages',
+                'coming_soon' => 'false',
+                'active' => false,
+            ]
+        );
     }
 
     public function render()

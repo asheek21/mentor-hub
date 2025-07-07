@@ -35,6 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return 1;
         })->name('messages');
 
+        Route::get('browse-mentors', function () {
+            return 1;
+        })->name('browse-mentors');
+
         Route::redirect('settings', 'settings/profile');
 
         Route::get('settings/profile', Profile::class)->name('settings.profile');
