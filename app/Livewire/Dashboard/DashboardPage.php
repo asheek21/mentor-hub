@@ -10,7 +10,6 @@ class DashboardPage extends BaseComponent
     public function render()
     {
         $stats = $this->stats();
-        // dd($stats);
 
         $bannerMessage = $this->getBannerMessage();
 
@@ -32,7 +31,7 @@ class DashboardPage extends BaseComponent
 
         // If the user is a mentee, show the number of upcoming sessions this week and the number of courses in progress
 
-        return 'You have 2 upcoming sessions this week and 3 courses in progress';
+        return 'You have 0 upcoming sessions this week and 0 courses in progress';
     }
 
     public function stats()

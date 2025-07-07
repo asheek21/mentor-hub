@@ -17,12 +17,7 @@
                 <div class="flex items-center space-x-4">
                     <button class="relative p-2 text-gray-500 hover:text-gray-700">
                         <i class="fas fa-bell"></i>
-                        {{-- <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span> --}}
                     </button>
-                    {{-- <div class="flex items-center space-x-3">
-                        <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1560250097-0b93528c311a" alt="Profile">
-                        <span class="text-sm font-medium text-gray-700">Dr. Sarah Chen</span>
-                    </div> --}}
 
                     <flux:dropdown position="top" align="start">
                         <flux:profile avatar="{{ $user->profile_picture }}" />
