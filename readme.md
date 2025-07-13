@@ -1,4 +1,4 @@
-# SkillBridge (WIP)
+# MentorHub (WIP)
 
 **SkillBridge** is a mentorship platform built with Laravel 12 where mentors and mentees can connect, book sessions, and collaborate effectively.  
 This project is currently in **active development**.
