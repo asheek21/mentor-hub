@@ -4,11 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
-use NumberFormatter;
 
 class StatService
 {
@@ -83,14 +79,9 @@ class StatService
 
     public function getTotalEarnings(): string
     {
-        $revenue = new Money(0, new Currency('INR'));
+        $totalEarning = 0;
 
-        $formatter = new IntlMoneyFormatter(
-            new NumberFormatter('en_IN', NumberFormatter::CURRENCY),
-            new ISOCurrencies
-        );
-
-        return $formatter->format($revenue);
+        return rupeeFormatter($totalEarning);
     }
 
     public function getMentorTotalSession(): int

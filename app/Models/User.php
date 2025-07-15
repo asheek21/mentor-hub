@@ -6,7 +6,9 @@ namespace App\Models;
 
 use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
+use App\Traits\HasUuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -19,6 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $first_name
  * @property string|null $last_name
  * @property string $email
@@ -38,8 +41,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\UserProfile|null $userProfile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserRating> $userRatings
+ * @property-read int|null $user_ratings_count
  *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User byUUID($uuid)
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User mentor()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
@@ -62,6 +69,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    use HasUuid;
     use InteractsWithMedia;
 
     const MEDIA_LIBRARY_PROFILE = 'profile';
@@ -76,7 +84,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'last_name',
         'user_role',
         'email',
-        'password',
         'onboarding_stage',
     ];
 
@@ -114,6 +121,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->filter()
             ->map(fn ($name) => Str::upper(Str::substr($name, 0, 1)))
             ->implode('');
+    }
+
+    public function scopeMentor($query): Builder
+    {
+        return $query->where('user_role', UserRole::MENTOR);
     }
 
     public function isMentor(): bool
@@ -166,5 +178,18 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         });
 
         return $percentageNeeded == 1 ? $average * 100 : $average;
+    }
+
+    public function mentorSkills()
+    {
+        return Cache::remember("user_{$this->id}_mentor_skills", now()->addHours(6), function () {
+
+            $specialization = $this->userProfile->specialization;
+
+            return $specialization->flatMap(function ($skill) {
+                return $skill;
+            });
+        });
+
     }
 }
