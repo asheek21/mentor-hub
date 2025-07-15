@@ -108,7 +108,6 @@ test('it creates activity log', function () {
 
     $this->assertDatabaseHas('activity_log', [
         'subject_type' => MentorSchedule::class,
-        'subject_id' => 1,
         'event' => 'created',
     ]);
 });

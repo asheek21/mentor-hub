@@ -85,6 +85,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'user_role',
         'email',
         'onboarding_stage',
+        'password',
     ];
 
     /**

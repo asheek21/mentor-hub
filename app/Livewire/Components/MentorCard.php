@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Component;
+namespace App\Livewire\Components;
 
 use App\Models\User;
 use Livewire\Component;
@@ -23,7 +23,7 @@ class MentorCard extends Component
 
         $hourlyRate = rupeeFormatter($hourlyRate);
 
-        return view('livewire.component.mentor-card', compact(
+        return view('livewire.components.mentor-card', compact(
             'userRating',
             'userRatingRounded',
             'skills',

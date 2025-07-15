@@ -37,9 +37,9 @@ class Listing extends Component
     {
         if (isset($filters['search']) && $filters['search'] != '') {
             $query->where(function ($query) use ($filters) {
-                $query->where('first_name', 'like', '%'.$filters['search'].'%')
-                    ->orWhere('last_name', 'like', '%'.$filters['search'].'%')
-                    ->orWhere('email', 'like', '%'.$filters['search'].'%');
+                $query->where('first_name', 'ilike', '%'.$filters['search'].'%')
+                    ->orWhere('last_name', 'ilike', '%'.$filters['search'].'%')
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$filters['search']}%"]);
             });
         }
 

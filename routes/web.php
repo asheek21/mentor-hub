@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingPage::class)->name('home');
 
+Route::get('/login', function () {
+    return redirect()->route('home');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/onboarding', OnboardingPage::class)->name('onboarding');
