@@ -8,9 +8,11 @@ use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -152,8 +154,17 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         return $this->hasOne(MenteePreference::class);
     }
 
-    public function averageRating(): float
+    public function userRatings(): HasMany
     {
-        return 5.0;
+        return $this->hasMany(UserRating::class);
+    }
+
+    public function averageRating(int $percentageNeeded = 0): float
+    {
+        $average = Cache::remember("user_{$this->id}_average_rating", now()->addHour(), function () {
+            return $this->userRatings()->avg('rating') ?? 0;
+        });
+
+        return $percentageNeeded == 1 ? $average * 100 : $average;
     }
 }
