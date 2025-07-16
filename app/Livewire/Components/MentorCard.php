@@ -17,7 +17,7 @@ class MentorCard extends Component
 
         $skills = $this->mentor->mentorSkills();
 
-        $hourlyRate = $this->mentor->userProfile->hourly_rate;
+        $hourlyRate = $this->mentor->mentorProfile->hourly_rate;
 
         info($hourlyRate);
 

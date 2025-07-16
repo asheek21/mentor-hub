@@ -64,9 +64,9 @@ class MenteeStep1Form extends Form
 
         $user = Auth::user();
 
-        $user->userProfile()->delete();
+        $user->mentorProfile()->delete();
 
-        $user->userProfile()->create([
+        $user->mentorProfile()->create([
             'current_role' => $requestData['current_role'] ?? null,
             'current_status' => $requestData['current_status'],
             'bio' => $requestData['bio'],

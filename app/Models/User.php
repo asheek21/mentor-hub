@@ -37,10 +37,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \App\Models\MenteePreference|null $menteePreference
+ * @property-read \App\Models\MentorProfile|null $mentorProfile
  * @property-read \App\Models\MentorSchedule|null $mentorSchedule
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \App\Models\UserProfile|null $userProfile
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserRating> $userRatings
  * @property-read int|null $user_ratings_count
  *
@@ -61,6 +61,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUuid($value)
  *
  * @mixin \Eloquent
  */
@@ -152,9 +153,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             $this->getFirstMediaUrl(self::MEDIA_LIBRARY_PROFILE) : 'https://ui-avatars.com/api/?name='.$name;
     }
 
-    public function userProfile(): HasOne
+    public function mentorProfile(): HasOne
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(MentorProfile::class);
     }
 
     public function mentorSchedule(): HasOne
@@ -185,7 +186,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
         return Cache::remember("user_{$this->id}_mentor_skills", now()->addHours(6), function () {
 
-            $specialization = $this->userProfile->specialization;
+            $specialization = $this->mentorProfile->specialization;
 
             return $specialization->flatMap(function ($skill) {
                 return $skill;

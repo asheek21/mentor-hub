@@ -2,8 +2,8 @@
 
 use App\Enums\UserRole;
 use App\Livewire\Components\MentorCard;
+use App\Models\MentorProfile;
 use App\Models\User;
-use App\Models\UserProfile;
 use Livewire\Livewire;
 
 test('it shows mentor details', function () {
@@ -15,7 +15,7 @@ test('it shows mentor details', function () {
     $this->actingAs($mentee);
 
     $mentor = User::factory()
-        ->has(UserProfile::factory()
+        ->has(MentorProfile::factory()
             ->state(function () {
                 return [
                     'current_role' => 'Laravel Developer',

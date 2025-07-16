@@ -30,11 +30,9 @@ class OnboardingPage extends Component
     {
         $this->currentStep = $this->user->onboarding_stage->step();
 
-        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 2 : 1;
+        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 3 : 1;
 
-        $isMentee = $this->user->user_role == UserRole::MENTEE;
-
-        return view('livewire.onboarding.onboarding-page', compact('isMentee'));
+        return view('livewire.onboarding.onboarding-page');
     }
 
     #[On('profile-updated')]
@@ -52,8 +50,18 @@ class OnboardingPage extends Component
 
             } elseif ($completedStep == 2) {
 
+                $this->user->onboarding_stage = OnboardingStage::THIRD_STEP;
+                $this->user->save();
+
+                $this->currentStep = $this->user->onboarding_stage->step();
+
+            } elseif ($completedStep == 3) {
+
                 $this->user->onboarding_stage = OnboardingStage::COMPLETED;
                 $this->user->save();
+
+                $this->currentStep = $this->user->onboarding_stage->step();
+
                 $this->redirect(route('dashboard', absolute: false), navigate: true);
             }
 

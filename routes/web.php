@@ -19,7 +19,7 @@ Route::get('/', LandingPage::class)->name('home');
 
 Route::get('/login', function () {
     return redirect()->route('home');
-});
+})->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

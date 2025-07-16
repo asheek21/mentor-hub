@@ -16,7 +16,4 @@
             <p class="text-sm text-gray-500">Recommended: 400x400px</p>
         </div>
     </div>
-    @error('profilePicture')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
 </div>

@@ -19,6 +19,11 @@ class Header extends Component
 
     public User $user;
 
+    public array $dontShowHeader = [
+        'onboarding',
+        'verify-email',
+    ];
+
     public function mount()
     {
         $this->user = Auth::user();

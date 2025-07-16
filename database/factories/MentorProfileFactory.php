@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Enums\YearsOfExperience;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserProfile>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\mentorProfile>
  */
-class UserProfileFactory extends Factory
+class MentorProfileFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +18,16 @@ class UserProfileFactory extends Factory
     {
         return [
             'current_role' => $this->faker->jobTitle(),
-            'current_status' => $this->faker->jobTitle(),
-            'company' => $this->faker->company(),
-            'years_of_experience' => $this->faker->randomElement(YearsOfExperience::cases()),
+            'work_experience' => [
+                [
+                    'job_title' => $this->faker->jobTitle(),
+                    'company_name' => $this->faker->company(),
+                    'start_date' => $this->faker->date(),
+                    'end_date' => null,
+                    'current_position' => true,
+                    'description' => $this->faker->paragraph(),
+                ],
+            ],
             'bio' => $this->faker->text(),
             'specialization' => [
                 'programming' => [

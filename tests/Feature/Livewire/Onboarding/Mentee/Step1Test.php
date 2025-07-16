@@ -6,8 +6,8 @@ use App\Enums\SessionFrequency;
 use App\Enums\UserRole;
 use App\Livewire\Onboarding\Mentee\Step1;
 use App\Models\MenteePreference;
+use App\Models\MentorProfile;
 use App\Models\User;
-use App\Models\UserProfile;
 use Livewire\Livewire;
 
 test('it can complete step1', function () {
@@ -35,13 +35,13 @@ test('it can complete step1', function () {
 
     $user->refresh();
 
-    $userProfile = $user->userProfile;
+    $mentorProfile = $user->mentorProfile;
 
     $menteePreference = $user->menteePreference;
 
-    expect($userProfile->count())->toBe(1);
-    expect($userProfile)->toBeInstanceOf(UserProfile::class);
-    expect($userProfile->current_role)->toBe('Software Developer');
+    expect($mentorProfile->count())->toBe(1);
+    expect($mentorProfile)->toBeInstanceOf(MentorProfile::class);
+    expect($mentorProfile->current_role)->toBe('Software Developer');
 
     expect($menteePreference->count())->toBe(1);
     expect($menteePreference)->toBeInstanceOf(MenteePreference::class);

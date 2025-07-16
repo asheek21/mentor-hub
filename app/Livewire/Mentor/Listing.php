@@ -22,7 +22,7 @@ class Listing extends Component
             ->when($this->filters, function ($query, $filters) {
                 $this->queryFilters($query, $filters);
             })
-            ->with(['userProfile' => function ($query) {
+            ->with(['mentorProfile' => function ($query) {
                 $query->select(['current_role', 'company', 'bio', 'hourly_rate', 'current_status', 'user_id', 'specialization']);
             }])
             ->withCount(['userRatings' => function ($query) {
@@ -44,7 +44,7 @@ class Listing extends Component
         }
 
         if (isset($filters['skill']) && $filters['skill'] != 'all') {
-            $query->whereHas('userProfile', function ($query) use ($filters) {
+            $query->whereHas('mentorProfile', function ($query) use ($filters) {
                 // $query->whereRaw("specialization::text ILIKE ANY(?)", [
                 //     array_map(fn($skill) => '%' . $skill . '%', $filters['skill'])
                 // ]); //for multiple skills
@@ -57,7 +57,7 @@ class Listing extends Component
         if (isset($filters['price']) && $filters['price'] != 'all') {
             $price = $filters['price'];
 
-            $query->whereHas('userProfile', function ($query) use ($price) {
+            $query->whereHas('mentorProfile', function ($query) use ($price) {
 
                 if ($price == 'high') {
                     $query->where('hourly_rate', '>', 1000);

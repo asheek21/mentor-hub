@@ -12,17 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_profiles', function (Blueprint $table) {
+        Schema::create('mentor_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->string('current_role')->nullable();
-            $table->string('current_status')->nullable();
-            $table->string('company')->nullable();
-            $table->string('years_of_experience')->nullable();
+            $table->string('current_role');
+            $table->json('work_experience');
             $table->text('bio');
-            $table->json('specialization');
+            $table->json('specialization')->nullable();
             $table->decimal('hourly_rate')->nullable();
             $table->integer('session_duration')->nullable();
+            $table->boolean('mentor_status')->default(true);
             $table->timestamps();
         });
     }
