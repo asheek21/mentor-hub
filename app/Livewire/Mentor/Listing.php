@@ -23,7 +23,7 @@ class Listing extends Component
                 $this->queryFilters($query, $filters);
             })
             ->with(['mentorProfile' => function ($query) {
-                $query->select(['current_role', 'company', 'bio', 'hourly_rate', 'current_status', 'user_id', 'specialization']);
+                $query->select(['current_role', 'bio', 'hourly_rate', 'mentor_status', 'user_id', 'specialization']);
             }])
             ->withCount(['userRatings' => function ($query) {
                 $query->where('rated_user_id', '>', 0);

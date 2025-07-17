@@ -34,7 +34,7 @@ class OnboardingPage extends Component
     {
         $this->currentStep = $this->user->onboarding_stage->step();
 
-        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 4 : 1;
+        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 4 : 3;
 
         return view('livewire.onboarding.onboarding-page');
     }
@@ -44,44 +44,53 @@ class OnboardingPage extends Component
     {
         $completedStep = $data['completedStep'];
 
-        if ($this->user->user_role == UserRole::MENTOR) {
+        if ($completedStep == 1) {
+            $this->user->onboarding_stage = OnboardingStage::SECOND_STEP;
+            $this->user->save();
 
-            if ($completedStep == 1) {
-                $this->user->onboarding_stage = OnboardingStage::SECOND_STEP;
-                $this->user->save();
+            $this->currentStep = $this->user->onboarding_stage->step();
 
-                $this->currentStep = $this->user->onboarding_stage->step();
+        } elseif ($completedStep == 2) {
 
-            } elseif ($completedStep == 2) {
+            $this->user->onboarding_stage = OnboardingStage::THIRD_STEP;
+            $this->user->save();
 
-                $this->user->onboarding_stage = OnboardingStage::THIRD_STEP;
-                $this->user->save();
+            $this->currentStep = $this->user->onboarding_stage->step();
 
-                $this->currentStep = $this->user->onboarding_stage->step();
+        } elseif ($completedStep == 3) {
 
-            } elseif ($completedStep == 3) {
-
+            if ($this->user->user_role == UserRole::MENTOR) {
                 $this->user->onboarding_stage = OnboardingStage::FOURTH_STEP;
                 $this->user->save();
 
                 $this->currentStep = $this->user->onboarding_stage->step();
+            }
 
-            } elseif ($completedStep == 4) {
+            if ($this->user->user_role == UserRole::MENTEE) {
 
                 $this->user->onboarding_stage = OnboardingStage::COMPLETED;
                 $this->user->save();
 
                 $this->currentStep = $this->user->onboarding_stage->step();
 
-                $this->redirect(route('dashboard', absolute: false), navigate: true);
+                $this->dashboardRedirect();
             }
 
-        } else {
+        } elseif ($completedStep == 4) {
 
-            $this->user->onboarding_stage = OnboardingStage::COMPLETED;
-            $this->user->save();
-            $this->redirect(route('dashboard', absolute: false), navigate: true);
+            if ($this->user->user_role == UserRole::MENTOR) {
+                $this->user->onboarding_stage = OnboardingStage::COMPLETED;
+                $this->user->save();
+
+                $this->currentStep = $this->user->onboarding_stage->step();
+
+                $this->dashboardRedirect();
+            }
         }
+    }
 
+    public function dashboardRedirect()
+    {
+        $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 }

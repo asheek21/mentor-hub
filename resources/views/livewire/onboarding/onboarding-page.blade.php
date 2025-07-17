@@ -11,24 +11,24 @@
 
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
+                <!-- Main Content -->
                 <div class="lg:col-span-2">
 
-                    @if($currentStep == 1 )
+                    @if ($currentStep == 1)
                         <livewire:profile-picture :user="$user" />
 
-                        <livewire:onboarding.mentor.personal-information :user="$user"/>
+                        <livewire:onboarding.mentor.personal-information :user="$user" />
                     @elseif($currentStep == 2)
-                        <livewire:onboarding.mentor.specialization :user="$user"/>
+                        <livewire:onboarding.mentor.specialization :user="$user" />
                     @elseif($currentStep == 3)
-                        <livewire:onboarding.mentor.schedule :user="$user" :weekDays="$weekDays"/>
+                        <livewire:onboarding.mentor.schedule :user="$user" :weekDays="$weekDays" />
                     @elseif($currentStep == 4)
-                        <livewire:onboarding.mentor.pricing :user="$user"/>
+                        <livewire:onboarding.mentor.pricing :user="$user" />
                     @endif
                 </div>
 
-                @if($currentStep == 3)
-                    <livewire:onboarding.schedule-preview :user="$user" :weekDays="$weekDays"/>
+                @if ($currentStep == 3)
+                    <livewire:onboarding.schedule-preview :user="$user" :weekDays="$weekDays" />
                 @else
                     <livewire:onboarding.preview :user="$user" />
                 @endif
@@ -36,7 +36,6 @@
 
             </div>
         </div>
-
     @else
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to MentorHub! 🎉</h2>
@@ -44,10 +43,31 @@
                 Let's set up your mentor profile so students can discover your expertise and book sessions with you.
             </p>
         </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                     @if ($currentStep == 1)
+                        <livewire:profile-picture :user="$user" />
+
+                        <livewire:onboarding.mentee.personal-information :user="$user" />
+                    @elseif($currentStep == 2)
+                        <livewire:onboarding.mentee.interest :user="$user" />
+                    @elseif($currentStep == 3)
+                        <livewire:onboarding.mentee.preference :user="$user"  />
+                    @elseif($currentStep == 4)
+                        <livewire:onboarding.mentor.pricing :user="$user" />
+                    @endif
+                </div>
+
+                <livewire:onboarding.preview :user="$user" />
+            </div>
+        </div>
     @endif
 
-    {{-- @if($currentStep == 1 )
-        @if ( ! $isMentee )
+    {{-- @if ($currentStep == 1)
+        @if (!$isMentee)
             <livewire:onboarding.step1 :user="$user" />
         @else
             <livewire:onboarding.mentee.step1 :user="$user" />
@@ -59,12 +79,12 @@
 </div>
 
 @push('custom-script')
-
     <script>
         Livewire.on('formSubmitted', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
-
 @endpush
-

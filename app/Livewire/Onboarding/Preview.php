@@ -3,7 +3,7 @@
 namespace App\Livewire\Onboarding;
 
 use App\Enums\LearningPreference;
-use App\Enums\MenteeTimeline;
+use App\Enums\OnboardingStage;
 use App\Enums\SessionFrequency;
 use App\Models\User;
 use Livewire\Attributes\On;
@@ -21,25 +21,21 @@ class Preview extends Component
 
     public int $sessionDuration = 60;
 
-    public string $timeline = '';
+    public ?string $learning_preference = '';
 
-    public string $learning_preference = '';
-
-    public string $session_frequency = '';
+    public ?string $session_frequency = '';
 
     public function mount()
     {
-        $this->currentRole = $this->user->mentorProfile?->current_role;
+        $this->currentRole = $this->getCurrentRole();
 
-        $specialization = $this->user->mentorProfile?->specialization?->toArray() ?? [];
+        $specialization = $this->getSpecialization();
 
         $this->specialization = $this->setSpecialization($specialization);
 
-        $this->learning_preference = LearningPreference::HANDSONPRACTICE->label();
+        $this->learning_preference = $this->getLearningPreference();
 
-        $this->session_frequency = SessionFrequency::WEEKLYSESSION->label();
-
-        $this->timeline = MenteeTimeline::ONE_TWO_MONTHS->label();
+        $this->session_frequency = $this->getSessionFrequency();
     }
 
     public function render()
@@ -63,8 +59,6 @@ class Preview extends Component
         $this->hourlyRate = $datas['hourlyRate'] ?? 0;
 
         $this->sessionDuration = $datas['sessionDuration'] ?? 0;
-
-        $this->timeline = $datas['timeline'] ?? '';
 
         $this->learning_preference = $datas['learning_preference'] ?? '';
 
@@ -96,5 +90,53 @@ class Preview extends Component
             ->take(2);
 
         return $flat->all();
+    }
+
+    public function getCurrentRole()
+    {
+        if ($this->user->isMentor()) {
+            return $this->user->mentorProfile?->current_role;
+        }
+
+        return $this->user->menteeProfile?->current_role;
+    }
+
+    public function getSpecialization(): array
+    {
+        if ($this->user->isMentor()) {
+            return $this->user->mentorProfile?->specialization?->toArray() ?? [];
+        }
+
+        return $this->user->menteeProfile?->interests?->toArray() ?? [];
+    }
+
+    public function getLearningPreference()
+    {
+        $learningPreference = $this->user->menteeProfile?->learning_preference;
+
+        if ($learningPreference) {
+            return $learningPreference->label();
+        }
+
+        if ($this->user->onboarding_stage == OnboardingStage::THIRD_STEP) {
+            return LearningPreference::HANDSONPRACTICE->label();
+        }
+
+        return '';
+    }
+
+    public function getSessionFrequency()
+    {
+        $sessionFrequency = $this->user->menteeProfile?->session_frequency;
+
+        if ($sessionFrequency) {
+            return $sessionFrequency->label();
+        }
+
+        if ($this->user->onboarding_stage == OnboardingStage::THIRD_STEP) {
+            return SessionFrequency::WEEKLYSESSION->label();
+        }
+
+        return '';
     }
 }

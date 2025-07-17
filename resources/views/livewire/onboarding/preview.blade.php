@@ -40,7 +40,6 @@
                 @else
 
                     <div class="text-sm text-gray-600">
-                        <p x-show="$wire.timeline">🎯 Goal: {{ $timeline }} </p>
                         <p x-show="$wire.learning_preference">💡 Style: {{ $learning_preference }}</p>
                         <p x-show="$wire.session_frequency">📅 {{ $session_frequency }} </p>
                     </div>
