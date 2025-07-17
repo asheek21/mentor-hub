@@ -3,6 +3,7 @@
 use App\Http\Middleware\OnboardingStateMiddleware;
 use App\Livewire\Dashboard\DashboardPage;
 use App\Livewire\Landing\LandingPage;
+use App\Livewire\Mentor\Browse;
 use App\Livewire\Onboarding\OnboardingPage;
 use App\Livewire\Session\SessionPage;
 use App\Livewire\Settings\Appearance;
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 // })->name('home');
 
 Route::get('/', LandingPage::class)->name('home');
+
+Route::get('/login', function () {
+    return redirect()->route('home');
+})->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -34,6 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('messages', function () {
             return 1;
         })->name('messages');
+
+        Route::get('browse-mentors', Browse::class)->name('browse-mentors');
 
         Route::redirect('settings', 'settings/profile');
 

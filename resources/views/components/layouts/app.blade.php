@@ -14,6 +14,7 @@
     @else
         <livewire:auth.header />
     @endif
+
     {{ $slot }}
 
     {{-- <flux:toast position="top right"/> --}}

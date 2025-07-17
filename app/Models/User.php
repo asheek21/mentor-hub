@@ -6,17 +6,22 @@ namespace App\Models;
 
 use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
+use App\Traits\HasUuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $first_name
  * @property string|null $last_name
  * @property string $email
@@ -31,13 +36,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read string|null $profile_picture
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
- * @property-read \App\Models\MenteePreference|null $menteePreference
+ * @property-read \App\Models\MenteeProfile|null $menteeProfile
+ * @property-read \App\Models\MentorProfile|null $mentorProfile
  * @property-read \App\Models\MentorSchedule|null $mentorSchedule
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \App\Models\UserProfile|null $userProfile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserRating> $userRatings
+ * @property-read int|null $user_ratings_count
  *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User byUUID($uuid)
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User mentor()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
@@ -52,6 +61,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUserRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUuid($value)
  *
  * @mixin \Eloquent
  */
@@ -60,6 +70,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    use HasUuid;
     use InteractsWithMedia;
 
     const MEDIA_LIBRARY_PROFILE = 'profile';
@@ -74,8 +85,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'last_name',
         'user_role',
         'email',
-        'password',
         'onboarding_stage',
+        'password',
     ];
 
     /**
@@ -114,6 +125,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->implode('');
     }
 
+    public function scopeMentor($query): Builder
+    {
+        return $query->where('user_role', UserRole::MENTOR);
+    }
+
     public function isMentor(): bool
     {
         return $this->user_role === UserRole::MENTOR;
@@ -137,9 +153,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             $this->getFirstMediaUrl(self::MEDIA_LIBRARY_PROFILE) : 'https://ui-avatars.com/api/?name='.$name;
     }
 
-    public function userProfile(): HasOne
+    public function mentorProfile(): HasOne
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(MentorProfile::class);
+    }
+
+    public function menteeProfile(): HasOne
+    {
+        return $this->hasOne(MenteeProfile::class);
     }
 
     public function mentorSchedule(): HasOne
@@ -147,13 +168,30 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         return $this->hasOne(MentorSchedule::class);
     }
 
-    public function menteePreference(): HasOne
+    public function userRatings(): HasMany
     {
-        return $this->hasOne(MenteePreference::class);
+        return $this->hasMany(UserRating::class);
     }
 
-    public function averageRating(): float
+    public function averageRating(int $percentageNeeded = 0): float
     {
-        return 5.0;
+        $average = Cache::remember("user_{$this->id}_average_rating", now()->addHour(), function () {
+            return $this->userRatings()->avg('rating') ?? 0;
+        });
+
+        return $percentageNeeded == 1 ? $average * 100 : $average;
+    }
+
+    public function mentorSkills()
+    {
+        return Cache::remember("user_{$this->id}_mentor_skills", now()->addHours(6), function () {
+
+            $specialization = $this->mentorProfile->specialization;
+
+            return $specialization->flatMap(function ($skill) {
+                return $skill;
+            });
+        });
+
     }
 }

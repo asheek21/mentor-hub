@@ -9,7 +9,7 @@ use Livewire\Livewire;
 test('it shows mentor steps correctly', function () {
     $user = User::factory()->create([
         'user_role' => UserRole::MENTOR,
-        'onboarding_stage' => OnboardingStage::SECOND_STEP,
+        'onboarding_stage' => OnboardingStage::FIRST_STEP,
     ]);
 
     $this->actingAs($user);
@@ -18,15 +18,19 @@ test('it shows mentor steps correctly', function () {
 
     $response = Livewire::test(Header::class, [
         'currentStep' => $currentStep,
-        'totalStep' => 2,
+        'totalStep' => 3,
     ]);
 
     if ($currentStep == 1) {
-        $response->assertSeeText('Step 1 of 2');
+        $response->assertSeeText('Step 1 of 3');
     }
 
     if ($currentStep == 2) {
-        $response->assertSeeText('Step 2 of 2');
+        $response->assertSeeText('Step 2 of 3');
+    }
+
+    if ($currentStep == 3) {
+        $response->assertSeeText('Step 3 of 3');
     }
 
     $response->assertOk();

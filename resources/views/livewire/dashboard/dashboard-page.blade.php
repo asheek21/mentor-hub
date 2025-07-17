@@ -13,7 +13,11 @@
         </div>
 
         <div class="space-y-8">
-            <livewire:dashboard.recent-reviewes />
+            @if ($user->isMentor())
+                <livewire:dashboard.recent-reviewes />
+            @else
+                <livewire:dashboard.recommended-mentors />
+            @endif
 
             <livewire:dashboard.recent-messages />
         </div>

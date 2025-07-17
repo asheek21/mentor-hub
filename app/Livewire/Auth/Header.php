@@ -19,6 +19,11 @@ class Header extends Component
 
     public User $user;
 
+    public array $dontShowHeader = [
+        'onboarding',
+        'verification.notice',
+    ];
+
     public function mount()
     {
         $this->user = Auth::user();
@@ -27,6 +32,34 @@ class Header extends Component
             array_push($this->menu,
                 [
                     'name' => 'Sessions',
+                    'route' => 'sessions',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'Courses',
+                    'route' => 'courses',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'Messages',
+                    'route' => 'messages',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ]
+            );
+        } else {
+
+            array_push($this->menu,
+                [
+                    'name' => 'Browse Mentors',
+                    'route' => 'browse-mentors',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'My Sessions',
                     'route' => 'sessions',
                     'coming_soon' => 'false',
                     'active' => false,
