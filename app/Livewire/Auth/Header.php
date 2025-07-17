@@ -21,7 +21,7 @@ class Header extends Component
 
     public array $dontShowHeader = [
         'onboarding',
-        'verify-email',
+        'verification.notice',
     ];
 
     public function mount()
@@ -49,34 +49,35 @@ class Header extends Component
                     'active' => false,
                 ]
             );
-        }
+        } else {
 
-        array_push($this->menu,
-            [
-                'name' => 'Browse Mentors',
-                'route' => 'browse-mentors',
-                'coming_soon' => 'false',
-                'active' => false,
-            ],
-            [
-                'name' => 'My Sessions',
-                'route' => 'sessions',
-                'coming_soon' => 'false',
-                'active' => false,
-            ],
-            [
-                'name' => 'Courses',
-                'route' => 'courses',
-                'coming_soon' => 'false',
-                'active' => false,
-            ],
-            [
-                'name' => 'Messages',
-                'route' => 'messages',
-                'coming_soon' => 'false',
-                'active' => false,
-            ]
-        );
+            array_push($this->menu,
+                [
+                    'name' => 'Browse Mentors',
+                    'route' => 'browse-mentors',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'My Sessions',
+                    'route' => 'sessions',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'Courses',
+                    'route' => 'courses',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ],
+                [
+                    'name' => 'Messages',
+                    'route' => 'messages',
+                    'coming_soon' => 'false',
+                    'active' => false,
+                ]
+            );
+        }
     }
 
     public function render()

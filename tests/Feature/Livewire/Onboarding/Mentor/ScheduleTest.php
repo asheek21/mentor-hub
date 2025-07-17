@@ -4,7 +4,7 @@ use App\Enums\AdvanceBookingWindow;
 use App\Enums\MaximumBookingWindow;
 use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
-use App\Livewire\Onboarding\Schedule;
+use App\Livewire\Onboarding\Mentor\Schedule;
 use App\Models\MentorSchedule;
 use App\Models\User;
 use Livewire\Livewire;

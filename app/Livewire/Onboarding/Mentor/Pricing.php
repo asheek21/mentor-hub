@@ -47,7 +47,7 @@ class Pricing extends Component
         Toaster::success('profile updated! Welcome to the community!');
 
         $this->dispatch('profile-updated', [
-            'completedStep' => 3,
+            'completedStep' => 4,
         ])->to(OnboardingPage::class);
     }
 }

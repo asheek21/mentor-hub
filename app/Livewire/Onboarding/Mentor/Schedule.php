@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Livewire\Onboarding;
+namespace App\Livewire\Onboarding\Mentor;
 
 use App\Enums\AdvanceBookingWindow;
 use App\Enums\MaximumBookingWindow;
+use App\Livewire\Onboarding\OnboardingPage;
+use App\Livewire\Onboarding\SchedulePreview;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -46,7 +48,7 @@ class Schedule extends Component
         $maximumBookingWindows = MaximumBookingWindow::cases();
         $indiaTimeNow = Carbon::now('Asia/Kolkata')->format('h:i A');
 
-        return view('livewire.onboarding.schedule', compact(
+        return view('livewire.onboarding.mentor.schedule', compact(
             'advanceBookingWindows', 'maximumBookingWindows', 'indiaTimeNow'
         ));
     }
@@ -85,8 +87,10 @@ class Schedule extends Component
 
         Toaster::success('Schedule updated!');
 
+        $this->dispatch('formSubmitted');
+
         $this->dispatch('profile-updated', [
-            'completedStep' => 2,
+            'completedStep' => 3,
         ])->to(OnboardingPage::class);
     }
 

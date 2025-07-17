@@ -22,7 +22,7 @@ class UserRegisteredDefaultRating
         /** @var \App\Models\User $user */
         $user = $event->user;
 
-        $user->userRatings()->create([
+        $user->userRatings()->updateOrCreate([
             'rating' => 0,
             'rated_user_id' => 0,
         ]);

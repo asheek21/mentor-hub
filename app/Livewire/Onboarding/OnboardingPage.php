@@ -17,6 +17,10 @@ class OnboardingPage extends Component
 
     public User $user;
 
+    public array $weekDays = [
+        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+    ];
+
     public function mount()
     {
         $this->user = Auth::user();
@@ -30,7 +34,7 @@ class OnboardingPage extends Component
     {
         $this->currentStep = $this->user->onboarding_stage->step();
 
-        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 3 : 1;
+        $this->totalStep = $this->user->user_role == UserRole::MENTOR ? 4 : 1;
 
         return view('livewire.onboarding.onboarding-page');
     }
@@ -56,6 +60,13 @@ class OnboardingPage extends Component
                 $this->currentStep = $this->user->onboarding_stage->step();
 
             } elseif ($completedStep == 3) {
+
+                $this->user->onboarding_stage = OnboardingStage::FOURTH_STEP;
+                $this->user->save();
+
+                $this->currentStep = $this->user->onboarding_stage->step();
+
+            } elseif ($completedStep == 4) {
 
                 $this->user->onboarding_stage = OnboardingStage::COMPLETED;
                 $this->user->save();

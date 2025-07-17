@@ -21,12 +21,28 @@
                     @elseif($currentStep == 2)
                         <livewire:onboarding.mentor.specialization :user="$user"/>
                     @elseif($currentStep == 3)
+                        <livewire:onboarding.mentor.schedule :user="$user" :weekDays="$weekDays"/>
+                    @elseif($currentStep == 4)
                         <livewire:onboarding.mentor.pricing :user="$user"/>
                     @endif
                 </div>
 
-                <livewire:onboarding.preview :user="$user" />
+                @if($currentStep == 3)
+                    <livewire:onboarding.schedule-preview :user="$user" :weekDays="$weekDays"/>
+                @else
+                    <livewire:onboarding.preview :user="$user" />
+                @endif
+
+
             </div>
+        </div>
+
+    @else
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to MentorHub! 🎉</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Let's set up your mentor profile so students can discover your expertise and book sessions with you.
+            </p>
         </div>
     @endif
 
@@ -42,4 +58,13 @@
     @endif --}}
 </div>
 
+@push('custom-script')
+
+    <script>
+        Livewire.on('formSubmitted', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+@endpush
 

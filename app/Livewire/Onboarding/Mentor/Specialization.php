@@ -54,6 +54,8 @@ class Specialization extends Component
 
         Toaster::success('profile updated!');
 
+        $this->dispatch('formSubmitted');
+
         $this->dispatch('profile-updated', [
             'completedStep' => 2,
         ])->to(OnboardingPage::class);
