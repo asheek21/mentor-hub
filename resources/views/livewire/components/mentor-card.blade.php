@@ -41,7 +41,7 @@
          <div class="flex items-center justify-between">
              <div class="text-lg font-semibold text-gray-900">{{ $hourlyRate }}/hr</div>
              <div class="flex space-x-2">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded cursor-pointer">
+                <button wire:click="goToMentorProfilePage" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded cursor-pointer">
                     View Profile
                 </button>
                  {{-- <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded">Book

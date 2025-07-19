@@ -5,12 +5,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-gray-900">MentorHub</h1>
+                    <h1 class="text-xl font-bold text-gray-900">mentorLog</h1>
                 </div>
                 <nav class="hidden md:flex space-x-8">
                     @foreach ($menu as $menuItem)
+
+                        @php
+                            $isActive = request()->routeIs($menuItem['route']) ||
+                                (!empty($menuItem['submenu']) &&
+                                collect($menuItem['submenu'])->contains(fn($child) => request()->routeIs($child)));
+                        @endphp
+
                         <a href="{{ route( $menuItem['route'] ) }}"
-                            class="{{ request()->routeIs($menuItem['route']) ? 'text-blue-600' : '' }} font-medium"
+                            class="{{ $isActive ? 'text-blue-600 font-semibold' : 'text-gray-700' }} font-medium"
                         >
                             {{ $menuItem['name'] }}
                         </a>
@@ -46,7 +53,7 @@
                                 <flux:menu.separator />
 
                                 <flux:menu.radio.group>
-                                    <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
+                                    <flux:menu.item href="{{ route('settings', ['tab' => 'personal-information']) }}"   icon="cog" wire:navigate >{{ __('Settings') }}</flux:menu.item>
                                 </flux:menu.radio.group>
 
                                 <flux:menu.separator />

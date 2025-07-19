@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -51,6 +53,8 @@ class MenteeProfile extends Model
     /** @use HasFactory<\Database\Factories\MenteeProfileFactory> */
     use HasFactory;
 
+    use LogsActivity;
+
     protected $fillable = [
         'current_status',
         'current_role',
@@ -74,5 +78,13 @@ class MenteeProfile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }

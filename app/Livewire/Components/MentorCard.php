@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
 class MentorCard extends Component
@@ -19,8 +20,6 @@ class MentorCard extends Component
 
         $hourlyRate = $this->mentor->mentorProfile->hourly_rate;
 
-        info($hourlyRate);
-
         $hourlyRate = rupeeFormatter($hourlyRate);
 
         return view('livewire.components.mentor-card', compact(
@@ -29,5 +28,10 @@ class MentorCard extends Component
             'skills',
             'hourlyRate'
         ));
+    }
+
+    public function goToMentorProfilePage()
+    {
+        return Redirect::route('mentor.profile', [$this->mentor]);
     }
 }

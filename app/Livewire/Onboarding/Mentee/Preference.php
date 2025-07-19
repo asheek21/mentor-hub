@@ -17,6 +17,20 @@ class Preference extends Component
 
     public MenteePreferenceForm $form;
 
+    public function mount()
+    {
+        $routeName = request()->route()->getName();
+
+        if ($routeName == 'settings') {
+            $menteeProfile = $this->user->menteeProfile;
+
+            $this->form->learning_preference = $menteeProfile->learning_preference->value;
+            $this->form->session_frequency = $menteeProfile->session_frequency->value;
+            $this->form->learning_goal = $menteeProfile->learning_goal;
+            $this->form->challenges = $menteeProfile->challenges;
+        }
+    }
+
     public function render()
     {
         $learningPreferences = LearningPreference::cases();

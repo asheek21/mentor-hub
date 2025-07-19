@@ -83,4 +83,9 @@ class MentorProfile extends Model
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
+
+    public function isActive()
+    {
+        return $this->mentor_status;
+    }
 }

@@ -21,6 +21,29 @@ class Interest extends Component
         'others' => [],
     ];
 
+    public function mount()
+    {
+        $routeName = request()->route()->getName();
+
+        if ($routeName == 'settings') {
+            $menteeProfile = $this->user->menteeProfile;
+
+            $interests = $menteeProfile->interests->toArray();
+
+            foreach ($interests as $key => $values) {
+
+                if ($key != 'others') {
+                    continue;
+                }
+
+                $interests[$key] = implode(',', $values);
+            }
+
+            $this->interests = $interests;
+        }
+
+    }
+
     public function render()
     {
         return view('livewire.onboarding.mentee.interest');

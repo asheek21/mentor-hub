@@ -3,7 +3,7 @@
 
     @if ($user->isMentor())
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to MentorHub! 🎉</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to mentorLog! 🎉</h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                 Let's set up your mentor profile so students can discover your expertise and book sessions with you.
             </p>
@@ -38,7 +38,7 @@
         </div>
     @else
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to MentorHub! 🎉</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to mentorLog! 🎉</h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                 Let's set up your mentor profile so students can discover your expertise and book sessions with you.
             </p>

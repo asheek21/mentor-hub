@@ -57,6 +57,9 @@ class Header extends Component
                     'route' => 'browse-mentors',
                     'coming_soon' => 'false',
                     'active' => false,
+                    'submenu' => [
+                        'mentor.profile',
+                    ],
                 ],
                 [
                     'name' => 'My Sessions',

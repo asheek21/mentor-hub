@@ -2,7 +2,7 @@
     class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50" @click="$wire.hide()">
     <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4" @click.stop>
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">Join MentorHub</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Join mentorLog</h2>
             <button class="text-gray-500 hover:text-gray-700 cursor-pointer" @click="$wire.hide()">
                 <i class="fas fa-times"></i>
             </button>

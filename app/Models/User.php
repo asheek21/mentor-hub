@@ -190,7 +190,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
             return $specialization->flatMap(function ($skill) {
                 return $skill;
-            });
+            })->filter()->values();
         });
 
     }

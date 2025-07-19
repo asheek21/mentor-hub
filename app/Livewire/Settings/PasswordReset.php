@@ -2,29 +2,36 @@
 
 namespace App\Livewire\Settings;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Masmerise\Toaster\Toaster;
 
-class Password extends Component
+class PasswordReset extends Component
 {
-    public string $current_password = '';
+    public User $user;
 
-    public string $password = '';
+    public string $current_password;
 
-    public string $password_confirmation = '';
+    public string $password;
 
-    /**
-     * Update the password for the currently authenticated user.
-     */
-    public function updatePassword(): void
+    public string $password_confirmation;
+
+    public function render()
+    {
+        return view('livewire.settings.password-reset');
+    }
+
+    public function updateSettingsPassword()
     {
         try {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
-                'password' => ['required', 'string', PasswordRule::defaults(), 'confirmed'],
+                'password' => ['required', 'string', PasswordRule::min(6)
+                    ->mixedCase()
+                    ->symbols(), 'confirmed'],
             ]);
         } catch (ValidationException $e) {
             $this->reset('current_password', 'password', 'password_confirmation');
@@ -32,12 +39,12 @@ class Password extends Component
             throw $e;
         }
 
-        Auth::user()->update([
+        $this->user->update([
             'password' => Hash::make($validated['password']),
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 
-        $this->dispatch('password-updated');
+        Toaster::success('Password updated!');
     }
 }
