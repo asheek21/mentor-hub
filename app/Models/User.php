@@ -170,7 +170,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function userRatings(): HasMany
     {
-        return $this->hasMany(UserRating::class);
+        return $this->hasMany(UserRating::class)
+            ->where('rated_user_id', '<>', 0);
     }
 
     public function averageRating(int $percentageNeeded = 0): float

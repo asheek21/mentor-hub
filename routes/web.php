@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('browse-mentors', Browse::class)->name('browse-mentors');
 
         Route::prefix('mentor')->group(function () {
-            Route::get('{mentor:uuid}', MentorProfilePage::class)->name('mentor.profile');
+            Route::get('{user:uuid}', MentorProfilePage::class)->name('mentor.profile');
         });
 
         Route::get('courses', function () {
