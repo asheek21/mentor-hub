@@ -7,13 +7,13 @@ use Livewire\Component;
 
 class Hero extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public function render()
     {
-        $mentorSkills = $this->user->mentorSkills();
+        $mentorSkills = $this->mentor->mentorSkills();
 
-        $averageRating = $this->user->averageRating();
+        $averageRating = $this->mentor->averageRating();
 
         $roundedAverageRating = round($averageRating);
 

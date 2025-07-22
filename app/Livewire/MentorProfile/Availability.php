@@ -8,13 +8,13 @@ use Livewire\Component;
 
 class Availability extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public ?MentorSchedule $mentorSchedules;
 
     public function mount()
     {
-        $this->mentorSchedules = $this->user->mentorSchedule;
+        $this->mentorSchedules = $this->mentor->mentorSchedule;
     }
 
     public function render()

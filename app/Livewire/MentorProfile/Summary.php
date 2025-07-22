@@ -7,13 +7,10 @@ use Livewire\Component;
 
 class Summary extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public function render()
     {
-        $mentorProfile = $this->user->mentorProfile;
-
-        // dd($mentorProfile);
         return view('livewire.mentor-profile.summary');
     }
 }

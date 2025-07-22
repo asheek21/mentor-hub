@@ -3,3 +3,7 @@ import.meta.glob([
 ]);
 
 import '../../vendor/masmerise/livewire-toaster/resources/js';
+
+// import { stripePromise } from './stripe.js';
+
+// const stripe = await stripePromise;

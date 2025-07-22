@@ -6,9 +6,6 @@
 </head>
 
 <body>
-
-</body>
-
     @if (! auth('web')->check() )
         <livewire:landing.header />
     @else
@@ -21,7 +18,10 @@
 
     <x-toaster-hub />
 
+    @vite(['resources/js/stripe.js'])
+
     @stack('custom-script')
 
     @fluxScripts
+</body>
 </html>

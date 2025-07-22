@@ -15,7 +15,8 @@
         "masmerise/livewire-toaster": "^2.8",
         "moneyphp/money": "^4.7",
         "spatie/laravel-activitylog": "^4.10",
-        "spatie/laravel-medialibrary": "^11.13"
+        "spatie/laravel-medialibrary": "^11.13",
+        "stripe/stripe-php": "^17.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

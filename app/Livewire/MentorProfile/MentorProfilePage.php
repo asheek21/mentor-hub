@@ -7,13 +7,14 @@ use Livewire\Component;
 
 class MentorProfilePage extends Component
 {
-    public User $user;
+    // route parameter
+    public User $mentor;
 
-    public function mount(User $user)
+    public function mount(User $mentor)
     {
-        $user->load('mentorProfile')->loadCount('userRatings');
+        $mentor->load('mentorProfile')->loadCount('userRatings');
 
-        $this->user = $user;
+        $this->mentor = $mentor;
     }
 
     public function render()

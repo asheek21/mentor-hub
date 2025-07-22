@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class About extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public function render()
     {

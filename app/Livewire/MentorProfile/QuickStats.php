@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class QuickStats extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public function render()
     {

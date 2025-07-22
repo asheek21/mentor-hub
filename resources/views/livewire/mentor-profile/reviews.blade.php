@@ -1,5 +1,5 @@
 <div
-    x-show="$wire.reviews.length > 0"
+    x-show="$wire.reviews"
     class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8"
 >
     <h2 class="text-2xl font-semibold text-gray-900 mb-6">Reviews</h2>

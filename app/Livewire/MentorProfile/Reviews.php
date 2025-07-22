@@ -8,13 +8,13 @@ use Livewire\Component;
 
 class Reviews extends Component
 {
-    public User $user;
+    public User $mentor;
 
     public Collection $reviews;
 
     public function mount()
     {
-        $this->reviews = $this->user->userRatings()
+        $this->reviews = $this->mentor->userRatings()
             ->whereNotNull('comment')
             ->take(3)
             ->get();

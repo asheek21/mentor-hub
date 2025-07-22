@@ -16,7 +16,7 @@
         </div>
         <div class="flex justify-between">
             <span class="text-gray-600">Member Since</span>
-            <span class="text-gray-900 font-medium">{{ \Carbon\Carbon::parse($user->created_at)->format('Y') }}</span>
+            <span class="text-gray-900 font-medium">{{ \Carbon\Carbon::parse($mentor->created_at)->format('Y') }}</span>
         </div>
     </div>
 </div>
