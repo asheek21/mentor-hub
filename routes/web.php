@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\OnboardingStateMiddleware;
+use App\Livewire\Booking\BookingPage;
+use App\Livewire\Booking\Verification;
 use App\Livewire\Dashboard\DashboardPage;
 use App\Livewire\Landing\LandingPage;
 use App\Livewire\Mentor\Browse;
@@ -34,6 +36,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('browse-mentors', Browse::class)->name('browse-mentors');
 
         Route::prefix('mentor')->group(function () {
+            Route::get('/booking', BookingPage::class)->name('mentor.booking');
+            Route::get('/booking-verification', Verification::class)->name('mentor.booking.verification');
             Route::get('{mentor:uuid}', MentorProfilePage::class)->name('mentor.profile');
         });
 
@@ -50,3 +54,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::stripeWebhooks('stripe-receive');

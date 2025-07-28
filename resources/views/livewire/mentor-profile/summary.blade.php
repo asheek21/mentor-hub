@@ -24,11 +24,14 @@
     </div>
 
     <div>
-        <button
-            wire:click="createCheckoutSession"
-            class="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg mb-3 transition-colors">
+        <flux:button
+            wire:click="bookSession"
+            variant="primary"
+            color="blue"
+            class="cursor-pointer w-full text-white font-medium py-3 px-4 rounded-lg mb-3 transition-colors"
+        >
             Book a Session
-        </button>
+        </flux:button>
     </div>
 
     <button

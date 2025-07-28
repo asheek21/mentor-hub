@@ -43,4 +43,9 @@ class StripeGateway implements PaymentGateway
     {
         return $this->stripe->prices->create($data);
     }
+
+    public function retrieveSession(string $sessionId): Session
+    {
+        return $this->stripe->checkout->sessions->retrieve($sessionId);
+    }
 }

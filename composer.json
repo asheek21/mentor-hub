@@ -16,6 +16,7 @@
         "moneyphp/money": "^4.7",
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-medialibrary": "^11.13",
+        "spatie/laravel-stripe-webhooks": "^3.10",
         "stripe/stripe-php": "^17.4"
     },
     "require-dev": {

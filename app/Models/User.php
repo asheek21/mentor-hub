@@ -36,7 +36,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read string|null $profile_picture
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MenteeBookingSession> $menteeBookingSessions
+ * @property-read int|null $mentee_booking_sessions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $menteeBookings
+ * @property-read int|null $mentee_bookings_count
  * @property-read \App\Models\MenteeProfile|null $menteeProfile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $mentorBookings
+ * @property-read int|null $mentor_bookings_count
  * @property-read \App\Models\MentorProfile|null $mentorProfile
  * @property-read \App\Models\MentorSchedule|null $mentorSchedule
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -74,6 +80,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     use InteractsWithMedia;
 
     const MEDIA_LIBRARY_PROFILE = 'profile';
+
+    protected string $uuidFieldName = 'uuid';
 
     /**
      * The attributes that are mass assignable.
@@ -194,5 +202,20 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             })->filter()->values();
         });
 
+    }
+
+    public function menteeBookingSessions(): HasMany
+    {
+        return $this->hasMany(MenteeBookingSession::class, 'mentee_id');
+    }
+
+    public function menteeBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'mentee_id');
+    }
+
+    public function mentorBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'mentor_id');
     }
 }

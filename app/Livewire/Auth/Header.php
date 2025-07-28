@@ -22,6 +22,7 @@ class Header extends Component
     public array $dontShowHeader = [
         'onboarding',
         'verification.notice',
+        'mentor.booking',
     ];
 
     public function mount()

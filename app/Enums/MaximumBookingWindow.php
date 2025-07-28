@@ -18,4 +18,14 @@ enum MaximumBookingWindow: string
             self::THREEMONTHS => '3 Months ahead',
         };
     }
+
+    public function day()
+    {
+        return match ($this) {
+            self::ONEWEEK => 7,
+            self::TWOWEEKS => 14,
+            self::ONEMONTH => 30,
+            self::THREEMONTHS => 90,
+        };
+    }
 }
