@@ -7,7 +7,9 @@ use App\Enums\MenteeBookingSessionStatus;
 use App\Models\Booking;
 use App\Models\MenteeBookingSession;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
@@ -47,14 +49,38 @@ class Verification extends Component
 
         $this->booking = $menteeBookingSession->booking;
 
+        $this->mentor = $mentor;
+
+        $this->menteeBookingSession = $menteeBookingSession;
+
         $stripeSession = $sessionData['stripe_session_id'];
 
         app(CreateBookingTransactionAction::class)->execute($this->booking, $stripeSession);
 
     }
 
+    public function getListeners()
+    {
+        return [
+            "echo-private:booking.{$this->booking->id},PaymentReceived" => 'paymentReceived',
+        ];
+    }
+
     public function render()
     {
         return view('livewire.booking.verification');
+    }
+
+    public function paymentReceived($event)
+    {
+        $this->dispatch('paymentReceived');
+    }
+
+    #[On('redirect-success')]
+    public function redirectToSuccessPage()
+    {
+        return Redirect::route('sessions', [
+            'tab' => 'upcoming',
+        ]);
     }
 }

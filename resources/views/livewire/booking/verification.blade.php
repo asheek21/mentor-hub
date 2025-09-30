@@ -8,6 +8,7 @@
             height: 32px;
             animation: spin 1s linear infinite;
         }
+
         .loader-small {
             border: 2px solid #ffffff;
             border-top: 2px solid #3b82f6;
@@ -16,29 +17,46 @@
             height: 12px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         .overlay {
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
+
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         .scale-in {
             animation: scaleIn 0.3s ease-in-out;
         }
+
         @keyframes scaleIn {
             from {
                 opacity: 0;
                 transform: scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -47,10 +65,10 @@
     </style>
 @endpush
 
-<div class="fixed inset-0 bg-black bg-opacity-50 overlay flex items-center justify-center z-50 fade-in">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 scale-in">
+<div class="fixed inset-0 bg-opacity-40 backdrop-blur-sm overlay flex items-center justify-center z-50 transition-opacity duration-300">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 scale-in" x-data="paymentSteps()" x-init="watchForLivewireEvents()">
         <!-- Payment Confirmation Content -->
-        <div id="paymentConfirmationContent" class="p-8">
+        <div id="paymentConfirmationContent" class="p-8" x-show="!showSuccessContent" x-transition>
             <div class="text-center">
                 <!-- Loading Icon -->
                 <div class="mb-6">
@@ -66,18 +84,28 @@
                 <div class="bg-gray-50 rounded-lg p-4 mb-8">
                     <div class="flex justify-between items-center">
                         <div class="text-left">
-                            <p class="font-medium text-gray-900" id="mentorName">Session with Dr. Sarah Chen</p>
-                            <p class="text-sm text-gray-600" id="sessionDateTime">Jan 15, 2025 at 2:00 PM</p>
+                            <p class="font-medium text-gray-900" id="mentorName">Session with {{ $mentor->full_name }}
+                            </p>
+                            <p class="text-sm text-gray-600" id="sessionDateTime">
+                                {{ \Carbon\Carbon::parse($booking->schedule)->format('M d, Y \a\t g:i A') }}</p>
                         </div>
-                        <span class="font-semibold text-lg text-gray-900" id="sessionAmount">$150.00</span>
+                        <span class="font-semibold text-lg text-gray-900"
+                            id="sessionAmount">{{ rupeeFormatter($booking->price) }}</span>
                     </div>
                 </div>
 
                 <!-- Progress Steps -->
                 <div class="space-y-4 text-left mb-8">
+                    <!-- Step 1: Payment Submitted -->
                     <div class="flex items-center space-x-4">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-check text-white text-sm"></i>
+                        <div :class="step1.completed ? 'bg-green-500' : 'bg-blue-500'"
+                            class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <template x-if="step1.completed">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </template>
+                            <template x-if="!step1.completed">
+                                <div class="loader-small"></div>
+                            </template>
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-medium text-gray-900">Payment Submitted</p>
@@ -85,33 +113,45 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center space-x-4" id="bankValidationStep">
-                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                            <div class="loader-small"></div>
+                    <!-- Step 2: Bank Validation -->
+                    <div class="flex items-center space-x-4">
+                        <div :class="step2.status === 'pending' ? 'bg-blue-500' : (step2.status === 'done' ? 'bg-green-500' :
+                            'bg-gray-300')"
+                            class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <template x-if="step2.status === 'done'">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </template>
+                            <template x-if="step2.status === 'pending'">
+                                <div class="loader-small"></div>
+                            </template>
+                            <template x-if="step2.status === 'idle'">
+                                <i class="fas fa-spinner text-gray-500 text-sm"></i>
+                            </template>
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-medium text-gray-900">Bank Validation</p>
-                            <p class="text-xs text-gray-500">Validating payment with your bank...</p>
+                            <p class="text-xs text-gray-500" x-text="step2.label"></p>
                         </div>
                     </div>
 
-                    <div class="flex items-center space-x-4" id="bookingConfirmationStep">
-                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-calendar text-gray-500 text-sm"></i>
+                    <!-- Step 3: Booking Confirmation -->
+                    <div class="flex items-center space-x-4">
+                        <div :class="step3.status === 'pending' ? 'bg-blue-500' : (step3.status === 'done' ? 'bg-green-500' :
+                            'bg-gray-300')"
+                            class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                            <template x-if="step3.status === 'done'">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </template>
+                            <template x-if="step3.status === 'pending'">
+                                <div class="loader-small"></div>
+                            </template>
+                            <template x-if="step3.status === 'idle'">
+                                <i class="fas fa-calendar text-gray-500 text-sm"></i>
+                            </template>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-500">Booking Confirmation</p>
-                            <p class="text-xs text-gray-400">Creating your session booking...</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4" id="emailNotificationStep">
-                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-envelope text-gray-500 text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-500">Email Confirmation</p>
-                            <p class="text-xs text-gray-400">Sending confirmation details...</p>
+                            <p class="text-sm font-medium text-gray-900">Booking Confirmation</p>
+                            <p class="text-xs text-gray-500" x-text="step3.label"></p>
                         </div>
                     </div>
                 </div>
@@ -131,7 +171,7 @@
         </div>
 
         <!-- Success State (Hidden by default) -->
-        <div id="paymentSuccessContent" class="p-8 text-center hidden">
+        <div id="paymentSuccessContent" class="p-8 text-center" x-show="showSuccessContent" x-transition>
             <div class="mb-6">
                 <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-check text-green-500 text-3xl"></i>
@@ -143,14 +183,66 @@
             <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                 <div class="flex items-center justify-center space-x-2">
                     <i class="fas fa-calendar-check text-green-600"></i>
-                    <p class="text-sm font-medium text-green-800">Booking Reference: #SB-2025-001234</p>
+                    <p class="text-sm font-medium text-green-800">Booking Reference: #{{ $booking->reference_number }}</p>
                 </div>
             </div>
 
-            <button onclick="redirectToSuccess()"
-                class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                View Booking Details
-            </button>
+            <p class="text-sm text-gray-500">Redirecting in 5 seconds...</p>
         </div>
     </div>
 </div>
+
+@push('custom-script')
+    <script>
+
+        function paymentSteps() {
+            return {
+                showSuccessContent: false,
+                step1: {
+                    completed: true
+                },
+                step2: {
+                    status: 'idle',
+                    label: 'Validating payment with your bank...'
+                },
+                step3: {
+                    status: 'idle',
+                    label: 'Creating your session booking...'
+                },
+
+                watchForLivewireEvents() {
+                    Livewire.on('paymentReceived', () => {
+                        this.step2.status = 'pending';
+                        setTimeout(() => {
+                            this.step2.status = 'done';
+                            this.step2.label = 'Payment validated successfully';
+
+                            this.step3.status = 'pending';
+                            this.step3.label = 'Setting up your session...';
+
+                            setTimeout(() => {
+                                this.step3.status = 'done';
+                                this.step3.label = 'Session booked successfully';
+
+                                setTimeout(() => {
+                                    this.showSuccessContent = true;
+
+                                     setTimeout(() => {
+                                        // window.location.href = '/booking/details';
+                                       Livewire.dispatch("redirect-success") ;
+
+                                    }, 2000);
+
+                                }, 1000);
+
+                            }, 2000);
+
+                        }, 2000);
+
+                    });
+                }
+            }
+        }
+    </script>
+@endpush
+

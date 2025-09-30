@@ -30,6 +30,7 @@ class CreateBookingAction
             'duration' => $duration,
             'meeting_notes' => $data['meetingNote'],
             'amount' => $menteeBookingSession->price,
+            'reference_number' => strtoupper(uniqid('BK-')),
         ]);
 
         app(DeletePreviousBookingAction::class)->execute($mentee, $menteeBookingSession, $booking);

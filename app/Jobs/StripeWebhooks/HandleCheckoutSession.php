@@ -7,6 +7,7 @@ use App\Enums\BookingPaymentStatus;
 use App\Enums\BookingStatus;
 use App\Enums\BookingTransactionStatus;
 use App\Enums\BookingTransactionType;
+use App\Events\PaymentReceived;
 use App\Models\Booking;
 use App\Models\BookingTransaction;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -55,13 +56,6 @@ class HandleCheckoutSession implements ShouldQueue
             );
         }
 
-        info('webhook', [
-            'bookingTransaction' => $bookingTransaction,
-            'bookingId' => $bookingId,
-            'paymentStatus' => $paymentStatus,
-            'referenceId' => $referenceId,
-        ]);
-
         if ($paymentStatus == 'paid') {
             $bookingTransaction->update([
                 'status' => BookingTransactionStatus::COMPLETED,
@@ -69,7 +63,7 @@ class HandleCheckoutSession implements ShouldQueue
             ]);
 
             $booking->update([
-                'status' => BookingStatus::CONFIRMED,
+                'status' => BookingStatus::PENDING, // booking will be pending, until confirmed by mentor
                 'payment_status' => BookingPaymentStatus::PAID,
             ]);
         }
@@ -77,5 +71,7 @@ class HandleCheckoutSession implements ShouldQueue
         if ($paymentStatus == 'unpaid') {
 
         }
+
+        PaymentReceived::dispatch($booking);
     }
 }

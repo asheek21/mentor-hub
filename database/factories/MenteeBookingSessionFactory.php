@@ -17,7 +17,8 @@ class MenteeBookingSessionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'price' => 5000,
+            'expires_at' => now()->addMinutes(5),
         ];
     }
 }

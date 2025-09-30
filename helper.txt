@@ -1,0 +1,4 @@
+php artisan queue:work
+php artisan reverb:start
+npm run dev
+stripe listen --forward-to http://mentorlog.test/stripe-receive

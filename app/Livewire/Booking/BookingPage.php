@@ -65,7 +65,7 @@ class BookingPage extends Component
             ]);
 
             Booking::where('mentee_booking_session_uuid', $menteeBookingSession->uuid)->update([
-                'status' => BookingPaymentStatus::INITIATED,
+                'payment_status' => BookingPaymentStatus::INITIATED,
             ]);
 
             Session::put('booking_status', [

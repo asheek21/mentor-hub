@@ -126,8 +126,11 @@
                     wire:key="time-slot-{{ $key }}"
                     wire:click="setSelectedTimeSlot('{{ $key }}')"
                     @class([
-                        "cursor-pointer time-slot px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:border-blue-500",
-                        "selected" => $selectedTimeSlot == $timeSlot['slot_start_time']
+                        "cursor-pointer time-slot px-4 py-3 border border-gray-300 rounded-lg
+                            text-sm font-medium hover:border-blue-500" => !$timeSlot['is_booked'],
+                        "selected" => $selectedTimeSlot == $timeSlot['slot_start_time'],
+                        "cursor-not-allowed px-4 py-3 border border-gray-300 rounded-lg
+                            text-sm font-medium bg-gray-200" => $timeSlot['is_booked']
                     ])
                 >
                     {{ $timeSlot['slot_start_time'] }}

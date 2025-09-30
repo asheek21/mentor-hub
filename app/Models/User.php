@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\BookingStatus;
 use App\Enums\OnboardingStage;
 use App\Enums\UserRole;
 use App\Traits\HasUuid;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
@@ -217,5 +219,12 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function mentorBookings(): HasMany
     {
         return $this->hasMany(Booking::class, 'mentor_id');
+    }
+
+    public function mentorUpcomingBookingDates()
+    {
+        return Collection::wrap($this->mentorBookings()
+            ->whereIn('status', [BookingStatus::PENDING, BookingStatus::CONFIRMED])
+            ->pluck('schedule'));
     }
 }

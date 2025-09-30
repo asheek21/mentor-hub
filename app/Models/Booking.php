@@ -6,6 +6,7 @@ use App\Enums\BookingPaymentStatus;
 use App\Enums\BookingStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -69,6 +70,7 @@ class Booking extends Model implements HasMedia
         'payment_status',
         'parent_booking_id',
         'price',
+        'reference_number',
     ];
 
     protected function casts(): array
@@ -83,5 +85,15 @@ class Booking extends Model implements HasMedia
     public function bookingTransactions(): HasMany
     {
         return $this->hasMany(BookingTransaction::class);
+    }
+
+    public function mentee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mentee_id');
+    }
+
+    public function mentor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mentor_id');
     }
 }

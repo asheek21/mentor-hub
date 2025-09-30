@@ -13,6 +13,8 @@ class Calendar extends Component
 
     public array $months;
 
+    public $mentorConfirmedBookingDates;
+
     public int $currentMonthIndex = 0;
 
     public string $selectedDate = '';
@@ -26,6 +28,7 @@ class Calendar extends Component
     public function mount()
     {
         $this->mentorSchedule = $this->mentor->mentorSchedule;
+        $this->mentorConfirmedBookingDates = $this->mentor->mentorUpcomingBookingDates();
 
         $this->months = $this->getThreeMonths();
 
@@ -116,11 +119,16 @@ class Calendar extends Component
         }
 
         $daySchedule = $this->mentorSchedule?->schedule[$dayName] ?? null;
+        // dd($daySchedule) ;
         $mentorSessionDuration = $this->mentor->mentorProfile->session_duration;
 
         if ($daySchedule && $daySchedule['enabled']) {
-            $startTime = Carbon::parse($daySchedule['from'], 'Asia/Kolkata');
-            $endTime = Carbon::parse($daySchedule['to'], 'Asia/Kolkata');
+
+            $selectedDate = Carbon::parse($selectedDay['date'], 'Asia/Kolkata');
+
+            $startTime = $selectedDate->copy()->setTimeFromTimeString($daySchedule['from']);
+            $endTime = $selectedDate->copy()->setTimeFromTimeString($daySchedule['to']);
+
             $now = Carbon::now('Asia/Kolkata');
 
             // If selected day is today, and start time is in the past, skip past slots
@@ -139,6 +147,15 @@ class Calendar extends Component
                 }
 
                 $timeSlots[$i]['slot_start_time'] = $startTime->format('h:i A');
+
+                if ($this->mentorConfirmedBookingDates->contains(function ($date) use ($startTime) {
+                    return $date->format('Y-m-d H:i:s') == $startTime->format('Y-m-d H:i:s');
+                })) {
+                    $timeSlots[$i]['is_booked'] = true;
+                } else {
+                    $timeSlots[$i]['is_booked'] = false;
+                }
+
                 $startTime->addMinutes($mentorSessionDuration);
                 $i++;
             }
@@ -201,6 +218,10 @@ class Calendar extends Component
 
     public function setSelectedTimeSlot($key)
     {
+        if ($this->timeSlots[$key]['is_booked']) {
+            return;
+        }
+
         $selectedTimeSlot = $this->timeSlots[$key]['slot_start_time'] ?? '';
 
         $this->selectedTimeSlot = $selectedTimeSlot != $this->selectedTimeSlot ? $selectedTimeSlot : '';
