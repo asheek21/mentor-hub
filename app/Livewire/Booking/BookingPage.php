@@ -37,6 +37,8 @@ class BookingPage extends Component
 
     public string $meeting_notes = '';
 
+    public string $meeting_heading = '';
+
     public array $all_files = [];
 
     public bool $loadingCheckout = false;
@@ -129,6 +131,7 @@ class BookingPage extends Component
             'date' => $this->selectedDate,
             'time' => $this->selectedTimeSlot,
             'meetingNote' => $this->meeting_notes,
+            'meetingHeading' => $this->meeting_heading,
             'files' => $this->all_files,
         ]);
 
@@ -144,6 +147,7 @@ class BookingPage extends Component
         return [
             'meeting_notes' => 'nullable|string',
             'upload_files' => 'nullable|array',
+            'meeting_heading' => 'required|string|max:255',
         ];
     }
 

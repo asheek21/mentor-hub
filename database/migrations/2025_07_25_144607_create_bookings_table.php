@@ -26,6 +26,7 @@ return new class extends Migration
             $table->dateTime('schedule');
             $table->integer('duration');
             $table->text('meeting_notes')->nullable();
+            $table->text('meeting_heading');
             $table->string('reference_number');
             $table->timestamps();
         });

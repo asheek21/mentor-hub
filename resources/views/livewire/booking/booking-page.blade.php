@@ -43,6 +43,22 @@
                     <div class="space-y-6">
                         <!-- Meeting Notes -->
                         <div>
+                            <label for="meetingHeading" class="block text-sm font-medium text-gray-700 mb-2">
+                                Meeting Heading <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="meetingHeading"
+                                wire:model="meeting_heading"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter the main topic or title of your meeting"
+                                required
+                            />
+                        </div>
+
+                        @error('meeting_heading') <span class="error">{{ $message }}</span> @enderror
+
+                        <div>
                             <label for="meetingNotes" class="block text-sm font-medium text-gray-700 mb-2">
                                 Anything the mentor should know about or prepare for this meeting?
                             </label>

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +19,12 @@ class MenteeBookingSessionFactory extends Factory
     public function definition(): array
     {
         return [
+            'mentee_id' => User::factory()->create([
+                'user_role' => UserRole::MENTEE,
+            ])->id,
+            'mentor_id' => User::factory()->create([
+                'user_role' => UserRole::MENTOR,
+            ])->id,
             'price' => 5000,
             'expires_at' => now()->addMinutes(5),
         ];

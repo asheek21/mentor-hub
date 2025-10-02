@@ -29,7 +29,7 @@ class CreateBookingAction
             'schedule' => $schedule,
             'duration' => $duration,
             'meeting_notes' => $data['meetingNote'],
-            'amount' => $menteeBookingSession->price,
+            'meeting_heading' => $data['meetingHeading'],
             'reference_number' => strtoupper(uniqid('BK-')),
         ]);
 

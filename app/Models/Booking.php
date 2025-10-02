@@ -71,6 +71,7 @@ class Booking extends Model implements HasMedia
         'parent_booking_id',
         'price',
         'reference_number',
+        'meeting_heading',
     ];
 
     protected function casts(): array
