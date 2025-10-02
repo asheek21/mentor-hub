@@ -9,7 +9,7 @@
             @php
                 $pending = $session['status'] == \App\Enums\BookingStatus::PENDING || $session['status'] == \App\Enums\BookingStatus::CONFIRMED ;
                 $completed = $session['status'] == \App\Enums\BookingStatus::COMPLETED;
-                $cancelled = $session['status'] == \App\Enums\BookingStatus::CANCELLED;
+                $cancelled = $session['status'] == \App\Enums\BookingStatus::CANCELLED || $session['status'] == \App\Enums\BookingStatus::AUTOCANCELLED;
             @endphp
 
             @class([
@@ -98,7 +98,7 @@
             @elseif ($cancelled)
                 <div class="mt-4 p-4 bg-white rounded-lg">
                     <h4 class="font-medium text-gray-900 mb-2">Cancellation Reason</h4>
-                    <p class="text-sm text-gray-600">Mentor had to cancel due to emergency. Full refund processed. You can reschedule at no additional cost.</p>
+                    <p class="text-sm text-gray-600">{{ $session->cancellation_reason }}.</p>
                 </div>
             @endif
 

@@ -7,6 +7,7 @@ enum BookingStatus: string
     case PENDING = 'pending';
     case CONFIRMED = 'confirmed';
     case CANCELLED = 'cancelled';
+    case AUTOCANCELLED = 'autocancelled';
     case COMPLETED = 'completed';
     case RESCHEDULED = 'rescheduled';
     case MENTEENOSHOW = 'menteenoshow';
@@ -22,6 +23,7 @@ enum BookingStatus: string
             self::RESCHEDULED => 'Rescheduled',
             self::MENTEENOSHOW => 'Mentee No Show',
             self::MENTORNOSHOW => 'Mentor No Show',
+            self::AUTOCANCELLED => 'Auto Cancelled',
         };
     }
 }

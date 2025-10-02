@@ -72,6 +72,7 @@ class Booking extends Model implements HasMedia
         'price',
         'reference_number',
         'meeting_heading',
+        'cancellation_reason',
     ];
 
     protected function casts(): array

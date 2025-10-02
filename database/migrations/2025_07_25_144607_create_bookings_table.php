@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('meeting_notes')->nullable();
             $table->text('meeting_heading');
             $table->string('reference_number');
+            $table->text('cancellation_reason')->nullable();
             $table->timestamps();
         });
     }

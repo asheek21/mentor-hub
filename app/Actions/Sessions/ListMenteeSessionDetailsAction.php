@@ -31,7 +31,7 @@ class ListMenteeSessionDetailsAction
         return match ($tab) {
             'upcoming' => [BookingStatus::PENDING, BookingStatus::CONFIRMED] ,
             'completed' => [BookingStatus::COMPLETED] ,
-            'cancelled' => [BookingStatus::CANCELLED],
+            'cancelled' => [BookingStatus::CANCELLED, BookingStatus::AUTOCANCELLED],
             default => [],
         };
     }

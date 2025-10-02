@@ -27,6 +27,7 @@ class BookingResource extends JsonResource
             'price' => $this->price,
             'payment_status' => $this->payment_status,
             'mentor' => new MentorResource($this->whenLoaded('mentor')),
+            'cancellation_reason' => $this->cancellation_reason,
         ];
     }
 }
