@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class Header extends Component
 {
+    public int $notificationCount = 0;
+
     public array $menu = [
         [
             'name' => 'Dashboard',
@@ -22,11 +24,16 @@ class Header extends Component
     public array $dontShowHeader = [
         'onboarding',
         'verification.notice',
+        'mentor.booking',
     ];
 
     public function mount()
     {
         $this->user = Auth::user();
+
+        $this->getNotificationCount();
+
+        // dd($this->notificationCount) ;
 
         if ($this->user->isMentor()) {
             array_push($this->menu,
@@ -57,6 +64,9 @@ class Header extends Component
                     'route' => 'browse-mentors',
                     'coming_soon' => 'false',
                     'active' => false,
+                    'submenu' => [
+                        'mentor.profile',
+                    ],
                 ],
                 [
                     'name' => 'My Sessions',
@@ -83,5 +93,10 @@ class Header extends Component
     public function render()
     {
         return view('livewire.auth.header');
+    }
+
+    public function getNotificationCount()
+    {
+        $this->notificationCount = $this->user->unreadNotifications()->count();
     }
 }

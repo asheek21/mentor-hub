@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -22,14 +23,16 @@ trait HasUuid
 
     public function getUUIDFieldName(): string
     {
-        return property_exists($this, 'uuidFieldName') && ! empty($this->uuidFieldName)
-            ? $this->uuidFieldName
-            : 'uuid';
+        return 'uuid';
     }
 
     public static function findByUuid(string $uuid): ?Model
     {
-        return static::byUUID($uuid)->first();
+        try {
+            return static::byUUID($uuid)->first();
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     public static function generateUUID()

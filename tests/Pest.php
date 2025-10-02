@@ -11,6 +11,11 @@
 |
 */
 
+use App\Enums\UserRole;
+use App\Models\MenteeProfile;
+use App\Models\User;
+use Tests\TestCase;
+
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -48,4 +53,20 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+/**
+ * Creates and authenticates a user with the role of Mentee.
+ *
+ * @return \App\Models\User The created and authenticated mentee user instance.
+ */
+function mentee(): TestCase
+{
+    $mentee = User::factory()
+        ->has(MenteeProfile::factory())
+        ->create([
+            'user_role' => UserRole::MENTEE,
+        ]);
+
+    return test()->actingAs($mentee);
 }

@@ -6,6 +6,8 @@ use App\Enums\YearsOfExperience;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -24,6 +26,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property YearsOfExperience $years_of_experience
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MentorRate> $allMentorRates
+ * @property-read int|null $all_mentor_rates_count
+ * @property-read \App\Models\MentorRate|null $mentorRate
  * @property-read \App\Models\User|null $user
  *
  * @method static \Database\Factories\MentorProfileFactory factory($count = null, $state = [])
@@ -82,5 +87,20 @@ class MentorProfile extends Model
             ->logFillable()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function isActive()
+    {
+        return $this->mentor_status;
+    }
+
+    public function allMentorRates(): HasMany
+    {
+        return $this->hasMany(MentorRate::class);
+    }
+
+    public function mentorRate(): HasOne
+    {
+        return $this->hasOne(MentorRate::class)->where('is_active', true);
     }
 }
